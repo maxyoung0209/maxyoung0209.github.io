@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Linux,汇编,">
 
 
 
@@ -84,16 +84,21 @@
 
 
 
-<meta name="description" content="举杯邀明月,对影成三人.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="邀月廊">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？">
+<meta name="keywords" content="Linux,汇编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在manjaro里搭建masm汇编学习环境">
+<meta property="og:url" content="http://yoursite.com/2019/07/18/在manjaro里搭建masm汇编学习环境/index.html">
 <meta property="og:site_name" content="邀月廊">
-<meta property="og:description" content="举杯邀明月,对影成三人.">
+<meta property="og:description" content="王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g545rsktxkj30k80bsaai.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5460ttfbsj30k70bs74f.jpg">
+<meta property="og:updated_time" content="2019-07-18T12:13:14.181Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="邀月廊">
-<meta name="twitter:description" content="举杯邀明月,对影成三人.">
+<meta name="twitter:title" content="在manjaro里搭建masm汇编学习环境">
+<meta name="twitter:description" content="王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？">
+<meta name="twitter:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g545rsktxkj30k80bsaai.jpg">
 
 
 
@@ -114,10 +119,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/18/在manjaro里搭建masm汇编学习环境/">
 
 
-  <title> 邀月廊 </title>
+  <title> 在manjaro里搭建masm汇编学习环境 | 邀月廊 </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -138,9 +143,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -219,9 +222,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -241,10 +244,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2019/07/18/在manjaro里搭建masm汇编学习环境/" itemprop="url">
-                  在manjaro里搭建masm汇编学习环境
-                </a>
+                在manjaro里搭建masm汇编学习环境
               
             
           </h1>
@@ -303,274 +303,82 @@
       
 
       
-        
-          <p>王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/07/18/在manjaro里搭建masm汇编学习环境/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+        <p>王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？</p>
+<a id="more"></a>
+
+<p>可以在Manjaro上装一台Windows虚拟机，但是有咩有更好一点的解决方案捏。在网上搜了下，发现了这个dos程序——dosemu。</p>
+<p>这个小东西是DOS模拟器，是一款类似于DOSBox的软件。它目前只支持Linux系统。</p>
+<hr>
+<p><strong>安装dosemu</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S dosemu</span><br></pre></td></tr></table></figure>
+
+<p><strong>下载汇编器、链接器和dos自带edit文本编辑器</strong><br>由于dosemu已经自带<code>debug.exe</code>了，所以我们只需要下载好这三个程序就好了。我把这三个程序放在<a href="https://github.com/maxyoung0209/tools.git" target="_blank" rel="noopener">Github</a>上了。</p>
+<p><strong>使用dosemu</strong><br>运行dosemu</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dosemu</span><br></pre></td></tr></table></figure>
+
+<p>打开一个黑乎乎的窗口：<br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g545rsktxkj30k80bsaai.jpg" alt="dosemu" title="dosemu"></p>
+<p>dosemu默认把～当作D盘，因此我们只需要进入D盘找到上述下载好的程序就行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line">cd software/threetools  # 我把这三个程序放在了～/Software/threetools下</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以按书上学习了<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5460ttfbsj30k70bs74f.jpg" alt="debug" title="debug"></p>
+<p><strong>退出dosemu</strong></p>
+<p>退出命令<code>exitemu</code></p>
+
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/07/13/计算机入门/" itemprop="url">
-                  计算机科学与技术必读书目（计算机原理篇）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2019-07-13T14:52:35+08:00" content="2019-07-13">
-              2019-07-13
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/计算机学习/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机学习</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
           
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/汇编/" rel="tag">#汇编</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>计算机科学与技术是国家一级学科，下设信息安全、软件工程、计算机软件与理论、计算机系统结构、计算机应用技术、计算机技术等专业。</p>
-<p>本文罗列了一些关于计算机原理的书，这些书通俗易懂，适合自学。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/07/13/计算机入门/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/计算机入门/" rel="next" title="计算机科学与技术必读书目（计算机原理篇）">
+                <i class="fa fa-chevron-left"></i> 计算机科学与技术必读书目（计算机原理篇）
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2019/07/11/七月十日梦/" itemprop="url">
-                  如果有的选，请不要选择“努力”
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2019-07-11T21:39:35+08:00" content="2019-07-11">
-              2019-07-11
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>七月十日昨夜，睡得很晚，做了一个梦，令我印象深刻。</p>
-<p>梦开头的部分我记不得了，只大概记得我走了很远的路，来到了一个地方，万里无云，这个地方到处都是椰树。潜意识里告诉我这个地方是海南的一个小岛。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/07/11/七月十日梦/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -578,6 +386,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -597,8 +409,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="花月九">
           <p class="site-author-name" itemprop="name">花月九</p>
@@ -646,6 +467,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -749,6 +581,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
