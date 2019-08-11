@@ -1,0 +1,1142 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="汇编,读书笔记,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/rose_flower_32.ico?v=5.0.2">
+
+
+
+
+
+
+<meta name="description" content="本文记录了读王爽老师的《汇编语言（第三版）》的过程，由于我对于汇编还没有太深理解，因此对书中内容并无太多个人总结，文中部分是书中原话，另外我按照自己的研读过程对书中结构进行了略微调整，内容上实则无伤大雅。">
+<meta name="keywords" content="汇编,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《汇编语言（第三版）》——王爽 读书笔记（未完待续）">
+<meta property="og:url" content="http://www.flowermoon.cn/2019/07/20/《汇编语言（第三版）》——王爽-读书笔记/index.html">
+<meta property="og:site_name" content="邀月廊">
+<meta property="og:description" content="本文记录了读王爽老师的《汇编语言（第三版）》的过程，由于我对于汇编还没有太深理解，因此对书中内容并无太多个人总结，文中部分是书中原话，另外我按照自己的研读过程对书中结构进行了略微调整，内容上实则无伤大雅。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g56dt1x061j30s30n3drl.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g56dyjbnyvj30ax0guac7.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g576zam4awj30sw0jlwmp.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g57709rspjj30ib0620tk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g578z7j8i3j30k307z748.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5nza864j30yk0giqdi.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5ou5uwgj30yk0gidqc.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d5prlx96j30yf0fntjd.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5q8fkavj30yc0fon75.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5qtj6gbj30yl0g1wol.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5r939d0j30y70f8n7j.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5rm4ygyj30y10fowos.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g5d5sc7gqpj30ye0j0am1.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5v4ltttj30ya0fvajx.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d5vjde88j30yl0h5492.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d6yqyfplj30k304vjr8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d7kkkguuj30k205d3yf.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d7l896u6j30k109o3ym.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d7nkx37vj30k106kgli.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d7o71u0lj30jy03t744.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhly1g5d8rat3gfj30jx07rjra.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5dchi6dyfj30k208waa0.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g5dcpyl9yyj30k003ijr7.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5dcqellifj30k00b4gln.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5dcvd99i2j30k00b4dfv.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g5dcxociiij30k00b4jrf.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5dk9t24fmj30ue0h4jzx.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5eghwwz9xj30og0gpagg.jpg">
+<meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g5ehhsmcfcj30v80kwqf9.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5lo60bsc4j30k102nq2q.jpg">
+<meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g5lpp2v2p3j30k206t3yg.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhly1g5lr5odesyj30k20akwec.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5lr6els6uj30k3077a9y.jpg">
+<meta property="og:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g5lr6zi38bj30jx04l0sk.jpg">
+<meta property="og:updated_time" content="2019-08-10T14:29:22.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《汇编语言（第三版）》——王爽 读书笔记（未完待续）">
+<meta name="twitter:description" content="本文记录了读王爽老师的《汇编语言（第三版）》的过程，由于我对于汇编还没有太深理解，因此对书中内容并无太多个人总结，文中部分是书中原话，另外我按照自己的研读过程对书中结构进行了略微调整，内容上实则无伤大雅。">
+<meta name="twitter:image" content="https://tva4.sinaimg.cn/large/007DFXDhgy1g56dt1x061j30s30n3drl.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.flowermoon.cn/2019/07/20/《汇编语言（第三版）》——王爽-读书笔记/">
+
+
+  <title> 《汇编语言（第三版）》——王爽 读书笔记（未完待续） | 邀月廊 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">邀月廊</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">举杯邀明月，对影成三人。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《汇编语言（第三版）》——王爽 读书笔记（未完待续）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-07-20T12:21:15+08:00" content="2019-07-20">
+              2019-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/《汇编语言（第三版）》-王爽/" itemprop="url" rel="index">
+                    <span itemprop="name">《汇编语言（第三版）》-王爽</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2019/07/20/《汇编语言（第三版）》——王爽-读书笔记/" class="leancloud_visitors" data-flag-title="《汇编语言（第三版）》——王爽 读书笔记（未完待续）">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录了读王爽老师的《汇编语言（第三版）》的过程，由于我对于汇编还没有太深理解，因此对书中内容并无太多个人总结，文中部分是书中原话，另外我按照自己的研读过程对书中结构进行了略微调整，内容上实则无伤大雅。</p>
+<a id="more"></a>
+
+<h2 id="第一章-基础知识"><a href="#第一章-基础知识" class="headerlink" title="第一章 基础知识"></a>第一章 基础知识</h2><h3 id="机器语言与汇编语言"><a href="#机器语言与汇编语言" class="headerlink" title="机器语言与汇编语言"></a>机器语言与汇编语言</h3><p>机器语言是机器指令的集合，电子计算机的机器指令是由0和1组成的一系列二进制数字，计算机将之转变成一系列高低电平，以此驱动电子器件工作。</p>
+<p>但是机器语言对人类来说不易使用，一组机器指令往往含有大量的0、1序列，不易编写和维护。因此产生了汇编语言，汇编语言采取了更容易被人类理解记忆的汇编指令。</p>
+<p>例如：</p>
+<blockquote>
+<p>操作：寄存器BX的内容送到AX中<br> 机器指令：1000100111011000<br> 汇编指令：mov ax, bx</p>
+</blockquote>
+<p>汇编指令由编译器转换成机器指令交由计算机执行。</p>
+<p>汇编语言由3类指令组成：</p>
+<ol>
+<li>汇编指令：机器码的助记符，有对应的机器码</li>
+<li>伪指令：没有对应的机器码，由编译器执行，用于协助编译器进行编译</li>
+<li>其他符号：如+、-、×、/等，由编译器处理<br>汇编语言的核心是汇编指令，它决定了汇编语言的特性。</li>
+</ol>
+<h3 id="数据与存储"><a href="#数据与存储" class="headerlink" title="数据与存储"></a>数据与存储</h3><p>存储器用于存放CPU所需要的指令和数据，这些指令和数据都用二进制的形式存在。二者之间并没有任何区别，具体是什么要看场合。<br>引用《CS：APP》里一句话：</p>
+<blockquote>
+<p>信息就是位+上下文</p>
+</blockquote>
+<p>存储器从0开始按顺序被划分为若干个存储单元，例如一个存储器有128个存储单元，编号从0-127,每个存储单元存储1个Byte，也就是8个二进制位。</p>
+<p>当存储单元在存储器里被编号后，CPU就可以跟据这些编号来找到这些存储单元的内容，这些编号称作地址。</p>
+<h3 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h3><p>在一台计算机中，不只有存储器这一种器件。CPU在读写数据时还要指明是对哪一个器件进行操作，进行哪种操作，是读，还是写。</p>
+<p>因此，CPU要完成对外部器件的读写，需要进行以下三类信息的交互：</p>
+<ul>
+<li>存储单元的地址（地址信息）。</li>
+<li>器件的选择，读或写命令（控制信息）。</li>
+<li>读或写的数据（数据信息）。</li>
+</ul>
+<p>CPU通过三类不同的线路来完成这三种信息的交互，分别为<strong>地址总线</strong>、<strong>数据总线</strong>和<strong>控制总线</strong>，这三类总线总称为<strong>总线</strong>。</p>
+<p><strong>地址总线</strong><br>CPU是通过地址总线来对存储器进行寻址的，因此地址总线能传送多少不同信息，CPU就能对多少个存储单元寻址。一根地址总线可以传输高电平和低电平两种状态，10根地址总线就会有1024种不同的状态，因此通过这10根地址总线，CPU可以找到编号为0-1023的存储单元。</p>
+<p><strong>数据总线</strong><br>数据总线用于CPU和其他部件之间的数据传输，数据总线的宽度决定了一次传输量。8根数据总线一次可以传输一个字节，16根数据总线一次可以传输两个字节。</p>
+<p><strong>控制总线</strong><br>控制总线是个总称，控制总线是一些不同控制线的集合。因此控制总线的宽度决定了CPU对外部器件的控制能力。</p>
+<blockquote>
+<p>我们平常讲的32位电脑和64位电脑其实就是指CPU的数据总线的宽度分别为32根和64根，但它们的地址总线并不固定，64位机由于某些硬件限制其地址总线只有4、50根。</p>
+</blockquote>
+<hr>
+<h3 id="检测点1-1"><a href="#检测点1-1" class="headerlink" title="检测点1.1"></a>检测点1.1</h3><blockquote>
+<p>（1） 1个CPU的寻址能力为8KB，那么它的地址总线宽度为<code>13根</code>。<br>（2） 1KB的存储器有<code>1024</code>个存储单元。存储单元的编号从<code>0</code>到<code>1023</code>。<br>（3） 1KB的存储器可以存储<code>8×1024</code>个bit，<code>1024</code>个Byte。<br>（4） 1GB、1MB、1KB分别是<code>1024×1024×1024、1024×1024、1024</code>个Byte。<br>（5） 8080、8088、80286、80386的地址总线宽度分别为16根、20根、24根、32根，则它们的寻址能力分别为：<code>64</code>（KB）、<code>1</code>（MB）、<code>16</code>（MB）、<code>4</code>（GB）。<br>（6） 8080、8088、8086、80286、80386的数据总线宽度分别为8根、8根、16根、16根、32根。则它们一次可以传输的数据为：<code>1</code>（B）、<code>1</code>（B）、<code>2</code>（B）、<code>2</code>（B）、<code>4</code>（B）。<br>（7） 从内存中读取1024字节的数据，8086至少要读<code>512</code>次，80386至少要读<code>256</code>次。<br>（8） 在存储器中，数据和程序以<code>二进制</code>形式存放。</p>
+</blockquote>
+<hr>
+<h3 id="存储器与内存地址空间"><a href="#存储器与内存地址空间" class="headerlink" title="存储器与内存地址空间"></a>存储器与内存地址空间</h3><p>一台计算机中，装有多个存储器芯片，这些存储器芯片从物理连接上看是独立的、不同的部件。从读写属性上看分为两类：随机存储器（RAM）和只读存储器（ROM）。RAM可读可写，但必须带电存储，关机后存储内容消失；ROM只能读不可写，关机后内容不消失。这些存储器从功能和连接上又可分为以下几类：</p>
+<ul>
+<li>随机存储器<br>用于存放CPU所需要的绝大部分程序和数据，它一般由两个位置上的RAM组成：装在主板上的RAM和插在扩展槽的RAM。</li>
+<li>装有BIOS（Basic Input /Output System）的ROM<br>BIOS是由主板和各类接口卡（显卡、网卡）厂商提供的软件系统，可以通过它控制硬件设备进行最基础的输入输出。BIOS存储在这些硬件设备的ROM里。例如，主板的ROM存储着主板BIOS（系统BIOS），网卡存储着网卡BIOS。</li>
+<li>接口卡上的RAM<br>某些接口卡需要对大批量输入数据、输出数据进行暂时存储，其上装有RAM。最典型的是显卡上的RAM，叫做显存。</li>
+</ul>
+<p>如图展示了计算机中各存储器的连接：<br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g56dt1x061j30s30n3drl.jpg" alt="计算机中各存储器的连接" title="计算机中各存储器的连接"></p>
+<p>上述的那些存储器物理上是独立的，但都要连接CPU的总线，CPU对它们读或写时都要通过控制线发送内存读写命令。</p>
+<p>因此对于CPU来说，它们都是内存，因此CPU对它们进行统一编号，所有的存储器在逻辑上形成了一个内存地址空间，如图：<br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g56dyjbnyvj30ax0guac7.jpg" alt="内存地址空间" title="内存地址空间"></p>
+<p>因此CPU就可以参照逻辑内存地址空间通过总线对它们统一对进行读写了。</p>
+<hr>
+<h2 id="第二章-寄存器"><a href="#第二章-寄存器" class="headerlink" title="第二章 寄存器"></a>第二章 寄存器</h2><h3 id="CPU内部"><a href="#CPU内部" class="headerlink" title="CPU内部"></a>CPU内部</h3><p>一个典型的CPU由运算器、控制器、寄存器等器件构成，这些器件依靠内部总线连接。前面所讲的总线相对于CPU来说是外部总线。</p>
+<p>在CPU中：</p>
+<ul>
+<li>运算器进行信息处理</li>
+<li>寄存器进行信息存储</li>
+<li>控制器控制各种器件进行工作</li>
+<li>内部总线连接各种器件，在它们之间进行数据传送</li>
+</ul>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>在CPU中，寄存器是汇编程序员可以直接用指令读写的器件。程序员可以通过改变各种寄存器的内容实现对CPU的控制。</p>
+<p>8086CPU有14个寄存器，分别是：AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW。这些寄存器都是16位的，可以存放两个字节。AX、BX、CX、DX寄存器用来存放一般的数据，被称为<strong>通用寄存器</strong>。</p>
+<p>事实上，8086的上一代CPU的寄存器都是8位的，因此，为了向下兼容，这四个通用寄存器都可以分为两个独立的8位寄存器使用。</p>
+<ul>
+<li>AX分为AH和AL</li>
+<li>BX分为BH和BL</li>
+<li>CX分为CH和CL</li>
+<li>DX分为DH和DL</li>
+</ul>
+<p>其中AH为高8位寄存器，AL为低8位寄存器。</p>
+<h3 id="数据在寄存器中的存储"><a href="#数据在寄存器中的存储" class="headerlink" title="数据在寄存器中的存储"></a>数据在寄存器中的存储</h3><p>如图，一个16位寄存器可以存放16位数据，即两个字节，分为高位字节和低位字节。高位字节存放在高8位寄存器中，低位字节存放在低8位寄存器中。两个字节合称为一个<strong>字</strong>。然而字的字长具体是几个字节，和CPU的数据总线宽度有关。<br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g576zam4awj30sw0jlwmp.jpg" alt="16位寄存器分为两个8位寄存器存储数据" title="16位寄存器分为两个8位寄存器存储数据"><br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g57709rspjj30ib0620tk.jpg" alt="高位字节和低位字节" title="高位字节和低位字节"></p>
+<h3 id="mov和add指令"><a href="#mov和add指令" class="headerlink" title="mov和add指令"></a>mov和add指令</h3><p>mov指令和add指令是最常用的两条指令，下面介绍它们用法：</p>
+<ol>
+<li><p>寄存器与立即数之间<br>mov ax， 1234H    ;将十六进制数1234移到寄存器ax中<br>add ax，1234H    ;将十六进制数1234加到寄存器ax中，溢出的位会被丢掉<br>mov al，1234H    ;这种情况是错误的，不可以将16位的数据存到8位寄存器中<br>add al，34H        ;这样可以</p>
+</li>
+<li><p>寄存器与寄存器之间<br>mov ax，bx    ;将bx中的内容移到ax中，bx内的数据不会发生变化<br>mov al，bx    ;会把bl的内容给al<br>mov ah，bx    ;这里有一个奇怪的问题，当我输入这条指令后，ah寄存器会被自动替换为其他某个寄存器如图：</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g578z7j8i3j30k307z748.jpg" alt="奇怪错误" title="奇怪错误"></p>
+<p>我现在还没弄清这个是什么机制，总而言之，使用指令时要对相同大小的寄存器操作，我就不继续列不同寄存器之间的操作了。</p>
+<hr>
+<h3 id="检测点2-1"><a href="#检测点2-1" class="headerlink" title="检测点2.1"></a>检测点2.1</h3><blockquote>
+<p>（1） 写出每条汇编指令执行后相关寄存器中的值。</p>
+<blockquote>
+<p>mov ax，62627    AX=<code>F4A3H</code><br>mov ah，31H            AX=<code>31A3H</code><br>mov al，23H            AX=<code>3123H</code><br>add ax，ax            AX=<code>6246H</code><br>mov bx，826CH        BX=<code>826CH</code><br>mov cx，ax            CX=<code>6246H</code><br>mov ax，bx            AX=<code>826CH</code><br>add ax，bx            AX=<code>04D8H</code><br>mov al，bh            AX=<code>0482H</code><br>mov ah，bl            AX=<code>6C82H</code><br>add ah，ah            AX=<code>D882H</code><br>add al，6            AX=<code>D888H</code><br>add al，al            AX=<code>D810H</code><br>mov ax，cx            AX=<code>6246H</code></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>（2）只能使用目前学过的汇编指令，最多使用4条指令，编程计算2的4次方。</p>
+<blockquote>
+<p>mov ax，2<br>add ax，ax<br>add ax，ax<br>add ax，ax</p>
+</blockquote>
+</blockquote>
+<hr>
+<h3 id="8086CPU的寻址方式"><a href="#8086CPU的寻址方式" class="headerlink" title="8086CPU的寻址方式"></a>8086CPU的寻址方式</h3><p>8086CPU有20根地址总线，具有1MB的寻址能力。然而8086又是16位CPU，即：</p>
+<ul>
+<li>运算器一次最多处理16位数据</li>
+<li>寄存器的最大宽度为16位    </li>
+<li>寄存器与运算器之间的总线为16位</li>
+</ul>
+<p>因此，如果将地址从内部简单发出，那么它只能送出16位地址，寻址能力只有64KB，如何将20根地址总线最大化的利用呢？</p>
+<p><strong>8086CPU采用一种用两个16位地址合成的方法来形成一个20位的物理地址。</strong></p>
+<blockquote>
+<p>物理地址指所有供CPU寻址的存储器拼接的线性存储地址。</p>
+</blockquote>
+<p>在CPU内部有一个部件叫做地址加法器，它的任务是将两个16位地址合成位20位物理地址，这两个16位地址分别叫做基础地址和偏移地址。即：<code>物理地址=基础地址×16+偏移地址</code>。</p>
+<blockquote>
+<p>如果你学过C语言，你会发现数组的实现和此处很相似，或许是在此处得到的灵感吧。在C语言中，数组名就像一个基础地址，数组的下标就是偏移地址。</p>
+</blockquote>
+<p>例如，基础地址为<code>1230H</code>，偏移地址为<code>00C8H</code>，那么物理地址就为<code>12300H + 00C8H</code> = <code>123C8H</code>。</p>
+<h3 id="段的概念"><a href="#段的概念" class="headerlink" title="段的概念"></a>段的概念</h3><p>基础地址又被称作段地址，因为CPU在内存中用上述方式寻址时，好像是从内存中拿出了“一段”，从CPU的角度来看，这是CPU管理内存的一种方式，实际上内存并没有分段。</p>
+<p>由于<code>段地址×16</code>是16的倍数，因此一个段的起始地址一定是16的倍数，同时偏移地址是16位，因此一个段最大为64KB。</p>
+<p>在8086CPU中有4个段寄存器，它们用来存放段地址以便提供给地址加法器，它们分别是：CS、DS、SS、ES。</p>
+<hr>
+<h3 id="检测点2-2"><a href="#检测点2-2" class="headerlink" title="检测点2.2"></a>检测点2.2</h3><blockquote>
+<p>（1）给定段地址为0001H，仅通过变化偏移地址寻址，CPU的寻址范围为<code>00010H</code>到<code>1000FH</code>。<br>（2）有一数据存放在内存20000H单元中，现给定段地址为SA，若想用偏移地址寻到此单元。则SA应满足的条件是：最小为<code>1001H</code>，最大为<code>2000H</code>。<br>（妈耶！我会口算16进制了！）</p>
+</blockquote>
+<hr>
+<h3 id="CS和IP"><a href="#CS和IP" class="headerlink" title="CS和IP"></a>CS和IP</h3><p>CS和IP是8086CPU中两个最关键的寄存器，它们指示了CPU当前要读取指令的地址。CS为代码段寄存器（Code Segment），IP为指令指针寄存器（Instruction Pointer）。</p>
+<p>因为CS是一个段寄存器，就像我们之前说的，要读取的指令存放在<code>CS × 16 + IP</code>中，我们用CS：IP来表示。</p>
+<p>书上有句话讲得很清晰：</p>
+<blockquote>
+<p>8086机中，任意时刻，CPU将CS：IP指向的内容当作指令执行。</p>
+</blockquote>
+<p>贴出书中8086CPU读取、执行指令的工作原理的图</p>
+<p><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5nza864j30yk0giqdi.jpg" alt><br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5ou5uwgj30yk0gidqc.jpg" alt><br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d5prlx96j30yf0fntjd.jpg" alt><br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5q8fkavj30yc0fon75.jpg" alt><br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5qtj6gbj30yl0g1wol.jpg" alt><br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d5r939d0j30y70f8n7j.jpg" alt><br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5rm4ygyj30y10fowos.jpg" alt><br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g5d5sc7gqpj30ye0j0am1.jpg" alt><br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d5v4ltttj30ya0fvajx.jpg" alt><br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d5vjde88j30yl0h5492.jpg" alt> </p>
+<p>需要注意的就是当指令进入指令缓冲器之后，IP的值会增加该指令的长度的数值，从而指向下一条指令。</p>
+<p>在CPU中，程序员能够用指令读写的部件只有寄存器，程序员可以通过改变寄存器中的内容实现对CPU的控制。CPU从何处执行指令是由CS、IP中的内容决定的，程序员通过改变CS、IP中的内容来控制CPU执行目标指令。</p>
+<p>mov指令无法设置CS、IP的值，当前介绍一个指令：<code>jmp</code>。</p>
+<p>若想同时修改CS和IP里的内容，可以使用形如<code>jmp 段地址：偏移地址</code>的指令完成，如：</p>
+<blockquote>
+<p><code>jmp 2AE3:3</code>  执行后：CS=2AE3H，IP=0003H，CPU将从2AE33处读取指令</p>
+</blockquote>
+<p>若仅想修改IP的内容，可用形如<code>jmp 某一合法寄存器</code>的指令完成。它的功能为：用寄存器中的值修改IP。</p>
+<hr>
+<h3 id="检测点2-3"><a href="#检测点2-3" class="headerlink" title="检测点2.3"></a>检测点2.3</h3><blockquote>
+<p>下面的3条指令执行后，CPU几次修改IP？都是在什么时候？最后IP中的值是多少？<br>mov ax，bx<br>sub ax，ax<br>jmp ax</p>
+<p>CPU修改了四次IP。<br>第一次：将<code>mov ax，bx</code>装入指令缓冲器后;<br>第二次：将<code>sub ax，ax</code>装入指令缓冲器后;<br>第三次：将<code>jmp ax</code>装入指令缓冲器后;<br>第四次：执行<code>jmp ax</code>后。<br>最后IP中的值为<code>0000H</code></p>
+</blockquote>
+<h3 id="实验1-查看CPU和内存，用机器指令和汇编指令编程"><a href="#实验1-查看CPU和内存，用机器指令和汇编指令编程" class="headerlink" title="实验1 查看CPU和内存，用机器指令和汇编指令编程"></a>实验1 查看CPU和内存，用机器指令和汇编指令编程</h3><h4 id="预备知识：Debug的使用"><a href="#预备知识：Debug的使用" class="headerlink" title="预备知识：Debug的使用"></a>预备知识：Debug的使用</h4><p>6个常用Debug命令</p>
+<ol>
+<li><p>R命令可以查看修改寄存器的内容。查看方式：直接输入：<code>R</code>，修改方式：<code>R 某寄存器</code>。<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d6yqyfplj30k304vjr8.jpg" alt="R命令" title="R命令"></p>
+</li>
+<li><p>D命令可以查看内存内容。查看方式：<code>D 段地址：偏移地址</code>和<code>D 段地址：起始偏移地址  结尾偏移地址</code>。第二种方式在dosemu下会报错，很奇怪。<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d7kkkguuj30k205d3yf.jpg" alt="D命令" title="D命令"></p>
+</li>
+<li><p>E命令可以改写内存中的内容。改写方式：<code>E 段地址：偏移地址  A B C D E...</code>和<code>E 段地址：偏移地址</code>。第二种方式采用了对每个字节提问修改的方式，按空格键修改下一个字节，按回车结束修改。（第一种方式中A B C D E…指修改后的值，它可以是数字、字符或字符串）<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5d7l896u6j30k109o3ym.jpg" alt="E命令" title="E命令"></p>
+</li>
+<li><p>U命令可以将内存中的机器指令翻译成汇编指令。使用方法：<code>U 段地址：偏移地址</code>。<br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5d7nkx37vj30k106kgli.jpg" alt="U命令" title="U命令"></p>
+</li>
+<li><p>T命令可以执行CS：IP正在指向的指令。使用方法：<code>T</code>。<br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5d7o71u0lj30jy03t744.jpg" alt="T命令" title="T命令"></p>
+</li>
+<li><p>A命令以汇编指令的格式在内存中写入一条机器指令。使用方法：<code>A 段地址：偏移地址</code>。<br><img src="https://tva3.sinaimg.cn/large/007DFXDhly1g5d8rat3gfj30jx07rjra.jpg" alt="A命令" title="A命令"></p>
+</li>
+</ol>
+<h4 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h4><p>（1） 使用Debug，将下面的程序段写入内存，逐条执行，观察每条指令执行后CPU中相关寄存器中内容的变化。</p>
+<p>机器码&emsp;&emsp;&emsp;&emsp;汇编指令<br>b8 20 4e&emsp;&emsp;&emsp;mov ax，4E20H<br>05 16 14&emsp;&emsp;&emsp;add ax，1416H<br>bb 00 20&emsp;&emsp;&emsp;mov bx，2000H<br>01 d8&emsp;&emsp;&emsp;&emsp;add ax，bx<br>89 c3&emsp;&emsp;&emsp;&emsp;mov bx，ax<br>01 d8&emsp;&emsp;&emsp;&emsp;add ax，bx<br>b8 1a 00&emsp;&emsp;&emsp;mov ax，001AH<br>bb 26 00&emsp;&emsp;&emsp;mov bx，0026H<br>00 d8&emsp;&emsp;&emsp;&emsp;add al，bl<br>00 dc&emsp;&emsp;&emsp;&emsp;add ah，bl<br>00 c7&emsp;&emsp;&emsp;&emsp;add bh，al<br>b4 00&emsp;&emsp;&emsp;&emsp;mov ah，0<br>00 d8&emsp;&emsp;&emsp;&emsp;add al，bl<br>04 9c&emsp;&emsp;&emsp;&emsp;add al，9CH<br>提示，可用E命令和A命令以两种方式将指令写入内存。注意用T命令执行时，CS：IP的指向。</p>
+<p>选一段内存使用E命令或A命令将上述指令输入，设置CS：IP指向第一条指令，即可使用T命令按条执行。如图：</p>
+<p><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5dchi6dyfj30k208waa0.jpg" alt> </p>
+<p>（2） 将下面3条指令写入从2000：0开始的内存单元中，利用这3条指令计算2的8次方。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax，1</span><br><span class="line">add ax，ax</span><br><span class="line">jmp 2000：0003</span><br></pre></td></tr></table></figure>
+
+<p>如图：<br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g5dcpyl9yyj30k003ijr7.jpg" alt><br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5dcqellifj30k00b4gln.jpg" alt> </p>
+<p>（3）查看内存中的内容。<br>PC机主板上的ROM中写有一个生产日期，在内存FFF00H～FFFFFH的某几个单元中，请找到这个生产日期并试图改变它。<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5dcvd99i2j30k00b4dfv.jpg" alt> </p>
+<p>在右边可以看到，02/25/93。</p>
+<p>（4）向内存从B8100H开始的单元中填写数据，如：<br><code>-e B810:0000 01 01 02 02 03 03 04 04</code><br><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g5dcxociiij30k00b4jrf.jpg" alt> </p>
+<p>可以看到在上方出现了几个表情，这是修改了显卡内存所致。</p>
+<h2 id="第三章-寄存器（内存访问）"><a href="#第三章-寄存器（内存访问）" class="headerlink" title="第三章 寄存器（内存访问）"></a>第三章 寄存器（内存访问）</h2><h3 id="大小端模式"><a href="#大小端模式" class="headerlink" title="大小端模式"></a>大小端模式</h3><p>数据在进行存储时，根据存储方向的不同，有两种存储方式，分别是小端序和大端序。</p>
+<p>小端序即为高位地址存储高位字节，低位地址存储低位字节。<br>大端序即为高位地址存储低位字节，低位地址存储高位字节。</p>
+<p>例如，要将<code>1234H</code>存储在地址为<code>2000：0000</code>处：</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>小端序</th>
+<th>大端序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2000：0000</td>
+<td>34H</td>
+<td>12H</td>
+</tr>
+<tr>
+<td>2000：0001</td>
+<td>12H</td>
+<td>34H</td>
+</tr>
+</tbody></table>
+<p>8086CPU在存储一个16位数据即一个字的时候，采用的是小端模式。</p>
+<h3 id="访问一个字"><a href="#访问一个字" class="headerlink" title="访问一个字"></a>访问一个字</h3><p>8086CPU在读取内存中数据时，需要先给出内存地址，这个内存地址由段地址和偏移地址组成。8086CPU中有一个DS段寄存器（Data Segment），通常用来存放要访问数据的段地址。比如我们要读取20000H单元的内容，可以用如下的程序段进行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx，2000</span><br><span class="line">mov ds，bx</span><br><span class="line">mov al，[0]</span><br></pre></td></tr></table></figure>
+
+<p>因为立即数不可以直接转移到段寄存器中，因此需要一个通用寄存器作为中转。</p>
+<p>中括号“[]”内的数字代表偏移地址，<code>mov al，[0]</code>意思是将内存地址2000：0处的数据复制到寄存器al中，由于al是一个8位寄存器，因此只是把20000H内存单元内的一个字节复制过去，如果是<code>mov ax，[0]</code>，则读取20000H和20001H的两个字节即一个字。</p>
+<p>因此可以看出，同样的内存地址，读取多少在于所操作的寄存器。<code>mov ax，[0]</code>则读取一个字节，<code>mov ax，[0]</code>则读取一个字。</p>
+<h3 id="mov、add、sub指令"><a href="#mov、add、sub指令" class="headerlink" title="mov、add、sub指令"></a>mov、add、sub指令</h3><p>mov和add前面已经说了，sub是减指令。<code>sub ax，bx</code>的意思就是，从ax中减去bx，若两数相减产生溢出，那么CPU会置溢出位。</p>
+<p>这里书里谈论了很多指令操作数问题，这里只需要注意两个，即：</p>
+<ul>
+<li>段寄存器和立即数之间不可操作，错误用法<code>mov cs，2000</code>;</li>
+<li>内存单元和立即数之间不可操作，错误用法<code>mov [0010]，1234</code>。</li>
+</ul>
+<h3 id="检测点3-1"><a href="#检测点3-1" class="headerlink" title="检测点3.1"></a>检测点3.1</h3><blockquote>
+<p>（1）在Debug中，用“d     0：0  1f”查看内存，结果如下。<br>0000：0000 70 80 F0 30 EF 60 30 E2-00 80 80 12 66 20 22 60<br>0000：0010 62 26 E6 D6 CC 2E 3C 3B-AB BA 00 00 26 06 66 88</p>
+</blockquote>
+<blockquote>
+<p>下面的程序执行前，AX=0，BX=0，写出每条汇编指令执行完后相关寄存器中的值。<br>mov ax，1<br>mov ds，ax<br>mov ax，[0000]&emsp;AX=<code>2662H</code><br>mov bx，[0001]&emsp;BX=<code>E626H</code><br>mov ax，bx&emsp;&emsp;&emsp;AX=<code>E626H</code><br>mov ax，[0000]&emsp;AX=<code>2662H</code><br>mov bx，[0002]&emsp;BX=<code>D6E6H</code><br>add ax，bx&emsp;&emsp;AX=<code>FD48H</code><br>add ax，[0004]&emsp;AX=<code>2C14H</code><br>mov ax，0&emsp;&emsp;&emsp;AX=<code>0000H</code><br>mov al，[0002]&emsp;AX=<code>00E6H</code><br>mov bx，0&emsp;&emsp;&emsp;BX=<code>0000H</code><br>mov bl，[000C]&emsp;BX=<code>0026H</code><br>add al，bl&emsp;&emsp;&emsp;AX=<code>000CH</code></p>
+</blockquote>
+<blockquote>
+<p>（2）内存中的情况如图3.6所示。<br>各寄存器的初始值：CS=2000H，IP=0，DS=1000H，AX=0，BX=0;</p>
+<ol>
+<li>写出CPU执行的指令序列（用汇编指令写出）。</li>
+<li>写出CPU执行每条指令后，CS、IP和相关寄存器中的数值。</li>
+<li>再次体会：数据和程序有区别吗？如何确定内存中的信息哪些是数据，哪些是程序？<br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5dk9t24fmj30ue0h4jzx.jpg" alt> </li>
+</ol>
+</blockquote>
+<blockquote>
+<p>执行顺序及寄存器内值</p>
+<ol>
+<li>mov ax，6622H；CS：IP = 2000：0003，DS=1000H，AX=6622H，BX=0000H</li>
+<li>jmp 0ff0：0100 ；CS：IP = 0ff0：0100，DS=1000H，AX=6622H，BX=0000H</li>
+<li>mov ax，2000H；CS：IP = 0ff0：0103，DS=1000H，AX=2000H，BX=0000H</li>
+<li>mov ds，ax；CS：IP = 0ff0：0105，DS=2000H，AX=2000H，BX=0000H</li>
+<li>mov ax，[0008]；CS：IP = 0ff0：0108，DS=2000H，AX=C389H，BX=0000H</li>
+<li>mov ax，[0002]；CS：IP = 0ff0：010b，DS=2000H，AX=EA66H，BX=0000H</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>数据和程序在内存中没有区别，可以通过对代码段和数据段分别标记的方法来区别？</p>
+</blockquote>
+<h3 id="CPU的栈机制"><a href="#CPU的栈机制" class="headerlink" title="CPU的栈机制"></a>CPU的栈机制</h3><p>在8086CPU中，段寄存器SS（Stack Segment）用来存放栈顶的段地址，寄存器SP（Stack Pointer）用来存放栈顶的偏移地址。<strong>任意时刻，SS：SP指向栈顶元素</strong>。</p>
+<p>如果一个栈空间初始状态是空的，那么SS：SP指向栈空间最高地址的下一个地址。</p>
+<p>注意在使用栈的时候不要超界，这个只能我们自己控制。</p>
+<p>push和pop指令在使用时的操作数不可以为立即数，只能为<code>寄存器</code>、<code>段寄存器</code>和<code>内存单元</code>。</p>
+<h3 id="再谈段"><a href="#再谈段" class="headerlink" title="再谈段"></a>再谈段</h3><p>在前面讲述了段的概念，根据我的理解，“段”实际上是CPU对内存的一种管理方式，让内存中无差别的数据有了意义。</p>
+<p>比如我们之前说的CS和DS段寄存器，它们分别保存代码段和数据段的段地址，代码段就是放程序的，数据段就是放数据的。通过段的划分，应该会有利于抽象。然而去掉这层抽象，在内存中代码段和数据段并无区别。</p>
+<p>刚刚我们了解了CPU的栈机制，像代码段和数据段那样，我们也可以根据自己的需要将一组内存单元定义为栈段。</p>
+<p>定义一个栈段后，栈顶地址为SS：SP，SP指向该栈段最大内存地址的下一个地址。</p>
+<p>由于栈在使用的时候只有SP发生变化，而SP是一个16位寄存器，因此一个栈段最大为64KB，当SP从空栈状态减小了64K之后，继续减的话又会形成一个轮回，然后会覆盖栈中之前写入的数据，因此一个栈最大为64KB。</p>
+<hr>
+<h3 id="检测点3-2"><a href="#检测点3-2" class="headerlink" title="检测点3.2"></a>检测点3.2</h3><blockquote>
+<p>（1）补全下面的程序，使其可以将10000H～1000FH中的8个字，逆序复制到20000H～2000FH中。逆序复制的含义如图3.17所示（图中内存的数据均为假设）。<br>mov ax，1000H<br>mov ds，ax<br><code>mov ax，2000H</code><br><code>mov ss，ax</code><br><code>mov sp，0010H</code><br>push [0]<br>push [2]<br>push [4]<br>push [6]<br>push [8]<br>push [A]<br>push [C]<br>push [E]</p>
+</blockquote>
+<blockquote>
+<p>（2）补全下面的程序，使其可以将10000H～1000FH中的8个字，逆序复制到20000H～2000FH中。<br>mov ax，2000H<br>mov dx，ax<br><code>mov ax，1000H</code><br><code>mov ss，ax</code><br><code>mov sp，0000H</code><br>pop [E]<br>pop [C]<br>pop [A]<br>pop [8]<br>pop [6]<br>pop [4]<br>pop [2]<br>pop [0]</p>
+</blockquote>
+<p><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5eghwwz9xj30og0gpagg.jpg" alt="图3.17 逆序复制" title="图3.17 逆序复制"></p>
+<hr>
+<h3 id="实验2-用机器指令和汇编指令编程"><a href="#实验2-用机器指令和汇编指令编程" class="headerlink" title="实验2 用机器指令和汇编指令编程"></a>实验2 用机器指令和汇编指令编程</h3><h4 id="预备知识：Debug的使用-1"><a href="#预备知识：Debug的使用-1" class="headerlink" title="预备知识：Debug的使用"></a>预备知识：Debug的使用</h4><p>我们之前讲得那些命令的参数为<code>段地址：偏移地址</code>，现在可以把段地址替换为段寄存器了。</p>
+<p>以D命令为例，如果我们要查看20000H处内存的数据，可以采用<code>d 2000：0000</code>命令来实现。如果我们要查看的数据段的段地址存放在了段寄存器DS中，那么我们就可以使用<code>d ds：0000</code>命令来实现。同理，对于代码段和栈段也是如此，其他的命令也是如此。</p>
+<p>在这个实验里，书里给挖了一个坑。看这样一段程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mov ax，2000</span><br><span class="line">mov ss，ax</span><br><span class="line">mov sp，10</span><br><span class="line"></span><br><span class="line">mov ax，3123</span><br><span class="line">push ax</span><br><span class="line">mov ax，3366</span><br><span class="line">push ax</span><br></pre></td></tr></table></figure>
+
+<p>将这段程序使用T命令进行单步执行时会发现，T命令将<code>mox ss，ax</code>和<code>mov sp，10</code>“同时执行”了，也就是说，原先每执行一条指令就停下等待我们继续操作的T命令在此处失效了。书中说是<strong>中断机制</strong>。这里算是留下了悬念。</p>
+<h4 id="实验任务-1"><a href="#实验任务-1" class="headerlink" title="实验任务"></a>实验任务</h4><p>（1）使用Debug，将下面的程序段写入内存，逐条执行，根据指令执行后的实际运行情况填空。</p>
+<p>mov ax，ffff<br>mov ds，ax</p>
+<p>mov ax，2200<br>mov ss，ax</p>
+<p>mov sp，0100</p>
+<p>mov ax，[0]&emsp;&emsp;;ax=<code>5BEAH</code><br>add ax，[2]&emsp;&emsp;;ax=<code>5CCAH</code><br>mov bx，[4]&emsp;&emsp;;bx=<code>30F0H</code><br>add bx，[6]&emsp;&emsp;;bx=<code>6022H</code></p>
+<p>push ax&emsp;;sp=<code>00FEH</code>; 修改的内存单元的地址是<code>220FEH</code>内容为<code>5CCAH</code><br>push bx&emsp;;sp=<code>00FCH</code>; 修改的内存单元的地址是<code>220FCH</code>内容为<code>6022H</code><br>pop ax&emsp;;sp=<code>00FEH</code>;ax=<code>6022H</code><br>pop bx&emsp;;sp=<code>0100H</code>;bx=<code>5CCAH</code></p>
+<p>push [4]&emsp;;sp=<code>00FEH</code>; 修改的内存单元的地址是<code>220FEH</code>内容为<code>30F0H</code><br>push [6]&emsp;;sp=<code>00FCH</code>; 修改的内存单元的地址是<code>220FCH</code>内容为<code>2F32H</code></p>
+<p>（2）仔细观察图3.19中的实验过程，然后分析：为什么2000：0～2000：f中的内容会发生改变？</p>
+<p><strong>这个是中断机制！ 我做了几个实验发现，2000：0～2000：f中的内容就是CS：IP的值，也就是下一条指令的地址。也就是说，中断发生后，操作系统去执行另一段程序返回原程序时，需要知道中断时原程序的暂停位置，操作系统把中断位置记录在低于栈顶的内存位置，返回后查询该处位置，将此处数据转移给CS：IP从而继续执行！但是CS：IP下面还有四个字节的数，我不知道是做什么的…</strong><br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g5ehhsmcfcj30v80kwqf9.jpg" alt="图3.19" title="图3.19"></p>
+<h2 id="第四章-第一个程序"><a href="#第四章-第一个程序" class="headerlink" title="第四章 第一个程序"></a>第四章 第一个程序</h2><h3 id="从源码到执行"><a href="#从源码到执行" class="headerlink" title="从源码到执行"></a>从源码到执行</h3><p>写好的汇编代码需要经历编译和链接才能成为可执行的二进制程序。</p>
+<h3 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h3><p>汇编源程序例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，0123H</span><br><span class="line">	mov bx，0456H</span><br><span class="line">	add ax，bx</span><br><span class="line">	add ax，ax</span><br><span class="line">	</span><br><span class="line">	mov ax，4c00H</span><br><span class="line">	int 21H</span><br><span class="line"></span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>伪指令<br>该程序包含了三种伪指令，伪指令是由编译器执行的。<br>（1）<code>assume cs:codesg</code>：这个伪指令是将cs段寄存器与codesg段关联起来，至于为什么需要关联，书中不要求了解。<br>（2）XXX segment …… XXX ends：用来定义一个段。可以是代码段、数据段和栈段。<br>（3）end：代表着汇编程序的结尾。</p>
+</li>
+<li><p>标号<br>codesg是段的名称，这个段的名称最终会被编译、链接程序处理为一个段的段地址。</p>
+</li>
+<li><p>程序返回<br>当汇编程序执行完后，需要将对CPU的控制权返回给shell，<code>mov ax，4C00H</code>和<code>int 21H</code>就是用来完成程序返回的。</p>
+</li>
+</ol>
+<h3 id="生成程序"><a href="#生成程序" class="headerlink" title="生成程序"></a>生成程序</h3><ol>
+<li><p>编辑<br>可以使用edit程序编辑源代码，只要写成文本文件就行。</p>
+</li>
+<li><p>编译<br>运行masm.exe程序按提示进行操作。选择好源文件后，生成<code>.obj</code>目标文件，剩余的两个中间文件<code>.lst</code>和<code>.crf</code>可以不生成。简化方式：<code>masm  文件路径；</code>，注意分号不要漏掉。</p>
+</li>
+<li><p>链接<br>运行link.exe程序按提示操作。选择好<code>.obj</code>文件开始链接，生成<code>.exe</code>文件，忽略映像文件<code>.map</code>的生成，如果没有调用库，则忽略掉库文件名<code>.lib</code>的输入。简化方式：<code>link 文件路径；</code>，分号不要漏嗷。</p>
+</li>
+</ol>
+<h3 id="跟踪程序执行过程"><a href="#跟踪程序执行过程" class="headerlink" title="跟踪程序执行过程"></a>跟踪程序执行过程</h3><p>将以上步骤生成的<code>1.exe</code>进行调试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debug 1.exe  #调试1.exe</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5lo60bsc4j30k102nq2q.jpg" alt="debug 1.exe" title="debug 1.exe"></p>
+<p>运行后，寄存器CX内存储的值是程序的长度。段寄存器DS存储程序所在内存的段地址。操作系统为程序分配内存后，会有一段空间用来与程序通信，这段空间叫做PSP区，它的大小为256个字节，因此程序的起始位置要比DS高256个字节，相当于代码段的段地址+10H。</p>
+<p>如图，该程序所在内存区的起始位置存储在DS中，也就是<code>07D4H</code>，实际上程序起始位置在<code>07E4H</code>，<code>07D4H</code>和<code>07E4H</code>之间是PSP区。</p>
+<p>调试过程只需要按T命令就好了，记得最后一条指令的时候使用P命令终止程序。</p>
+<h3 id="实验3-编程、编译、链接、跟踪"><a href="#实验3-编程、编译、链接、跟踪" class="headerlink" title="实验3 编程、编译、链接、跟踪"></a>实验3 编程、编译、链接、跟踪</h3><p>（1）将下面的程序保存为t1.asm文件，将其生成可执行文件t1.exe。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，2000H</span><br><span class="line">	mov ss，ax</span><br><span class="line">	mov sp，0</span><br><span class="line">	add sp，10</span><br><span class="line">	pop ax</span><br><span class="line">	pop bx</span><br><span class="line">	push ax</span><br><span class="line">	push ax</span><br><span class="line">	pop ax</span><br><span class="line">	pop bx</span><br><span class="line">	</span><br><span class="line">	mov ax，4C00H</span><br><span class="line">	int 21H</span><br><span class="line">	</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>（2）用Debug跟踪t1.exe的执行过程，写出每一步执行后，相关寄存器和栈顶的内容。</p>
+<p>（3）PSP的头两个字节是CD20，用Debug加载t1.exe，查看PSP的内容。</p>
+<ol>
+<li><p><code>mov ax，2000H</code><br>ax：<code>2000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>07E4H</code>&emsp;sp：<code>0000H</code><br><code>ss：sp</code>：<code>00B8H</code></p>
+</li>
+<li><p><code>mov ss，ax</code><br>ax：<code>2000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>2000H</code>&emsp;sp：<code>0000H</code><br><code>ss：sp</code>：<code>0000H</code></p>
+</li>
+<li><p><code>mov sp，0</code> &amp; <code>add sp，10</code><br>ax：<code>2000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>2000H</code>&emsp;sp：<code>000AH</code><br><code>ss：sp</code>：<code>0000H</code></p>
+</li>
+<li><p><code>pop ax</code> &amp; <code>pop bx</code><br>ax：<code>0000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>2000H</code>&emsp;sp：<code>000EH</code><br><code>ss：sp</code>：<code>0000H</code></p>
+</li>
+<li><p><code>push ax</code> &amp; <code>push bx</code><br>ax：<code>0000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>2000H</code>&emsp;sp：<code>000AH</code><br><code>ss：sp</code>：<code>0000H</code></p>
+</li>
+<li><p><code>pop ax</code> &amp; <code>pop bx</code><br>ax：<code>0000H</code>&emsp;bx：<code>0000H</code><br>ss：<code>2000H</code>&emsp;sp：<code>000EH</code><br><code>ss：sp</code>：<code>0000H</code></p>
+</li>
+</ol>
+<p>PSP内容：<br><img src="https://tva2.sinaimg.cn/large/007DFXDhgy1g5lpp2v2p3j30k206t3yg.jpg" alt="PSP内容" title="PSP内容"></p>
+<h2 id="第五章-BX-和loop指令"><a href="#第五章-BX-和loop指令" class="headerlink" title="第五章 [BX]和loop指令"></a>第五章 [BX]和loop指令</h2><h3 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h3><p>从本章开始，约定：<code>（bx）</code>表示寄存器bx内的内容，<code>（20000H）</code>表示内存地址20000H处的内容。</p>
+<p>“（）”内只能放寄存器、段寄存器和物理地址。</p>
+<p>我们之前已经了解了像<code>[0]</code>这种中括号内放立即数的用法，现在介绍中括号内放寄存器的用法，其实都一样，就是表示偏移地址呗。只不过<code>[bx]</code>是把偏移地址放在了寄存器bx中。这样有一个好处是我们可以通过控制寄存器bx内的值来控制偏移地址，bx就是一个变量，这样做的目的大概是为了方便以后对数据段的遍历吧。</p>
+<p>同时约定“idata”表示立即数。</p>
+<h3 id="loop循环"><a href="#loop循环" class="headerlink" title="loop循环"></a>loop循环</h3><p>当我们做一件有规律可循的事的时候，可能会重复用到相同的指令，因此就有了<code>loop</code>指令来简化我们的代码。<br>例如我们要计算2^12，根据之前的经验我们可以不断的让一个寄存器不断的增倍，但进行12次就要写12个<code>add</code>。我们可以用loop来简化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，2</span><br><span class="line">	mov cx，11</span><br><span class="line">s：	add ax，ax</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax，4C00H</span><br><span class="line">	int 21H</span><br><span class="line">	</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，当程序运行到loop处，会跳转到loop后的标号处，例如，当程序执行到<code>loop s</code>处的时候，会跳转到s处，接着执行s后的指令，执行完又遇到了loop，再跳转回去，继而实现了循环。其中循环次数保存在寄存器cx中。</p>
+<h3 id="Debug程序和masm对-idata-的不同处理"><a href="#Debug程序和masm对-idata-的不同处理" class="headerlink" title="Debug程序和masm对[idata]的不同处理"></a>Debug程序和masm对[idata]的不同处理</h3><p>在Debug中，<code>[idata]</code>表示偏移地址不会有什么问题，但在masm中会被处理成idata，也就是说把中括号忽略掉了。如图：<br><img src="https://tva4.sinaimg.cn/large/007DFXDhly1g5lr5odesyj30k20akwec.jpg" alt="测试程序" title="测试程序"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5lr6els6uj30k3077a9y.jpg" alt="Debug中" title="Debug中"></p>
+<p><img src="https://tva4.sinaimg.cn/large/007DFXDhgy1g5lr6zi38bj30jx04l0sk.jpg" alt="masm中" title="masm中"></p>
+<p>使用u命令可以很清楚的看到masm处理过的程序<code>[idata]</code>含义变了。</p>
+<p>书中给出了一种方法，那就是将偏移量放入bx寄存器，这样就避免了masm对<code>[idata]</code>的处理，而含义是不变的，比如我们可以这样来访问2000：0单元：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax，2000H</span><br><span class="line">mov ds，ax</span><br><span class="line">mov bx，0</span><br><span class="line">mov al，[bx]</span><br></pre></td></tr></table></figure>
+
+<p>还有一种比这个稍微简便一点的方法，就是要显式地给出段地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax，2000H</span><br><span class="line">mov ds，ax</span><br><span class="line">mov al，ds:[0]</span><br></pre></td></tr></table></figure>
+
+<h3 id="loop-bx-实现遍历"><a href="#loop-bx-实现遍历" class="headerlink" title="loop+[bx]实现遍历"></a>loop+[bx]实现遍历</h3><p>如果我们要对一串连续的内存单元进行操作，可以利用loop和[bx]来简化我们的操作。书中给了一个例子：<br><strong>计算ffff:0~ffff:b单元中的数据的和，结果存储在dx中</strong></p>
+<p>首先是一个内存大小问题，内存单元的大小是一个字节，如果我们直接将其转移到一个8位寄存器中累加，很可能会溢出。而若是直接将内存中的数移动到16位寄存器中则位数不匹配。因此我们先将内存数据移动到8位寄存器，再将8位寄存器内数据移动到16位寄存器中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov al，ds:[0]</span><br><span class="line">mov ah，0</span><br><span class="line">add dx，ax</span><br></pre></td></tr></table></figure>
+
+<p>就像这样，但如果我们将ffff:0~ffff:b中的每一个单元都这样操作的话就太不现实了。但由于这段内存是连续的，我们可以通过对寄存器bx的控制来遍历这段内存。</p>
+<p>例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov al，ds:[bx]</span><br><span class="line">mov ah，0</span><br><span class="line">add dx，ax</span><br></pre></td></tr></table></figure>
+
+<p>显而易见，这段代码是可以重复使用的，我们只需要控制好bx的值。因此这个问题可以这样解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，0ffffh</span><br><span class="line">	mov ds，ax</span><br><span class="line">	mov bx，0</span><br><span class="line">	mov dx，0</span><br><span class="line">	</span><br><span class="line">	mov cx，0ch</span><br><span class="line">s：	mov al，ds:[bx]</span><br><span class="line">	mov ah，0</span><br><span class="line">	add dx，ax</span><br><span class="line">	inc bx</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax，4c00H</span><br><span class="line">	int 21H</span><br><span class="line">	</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>是不是很像C语言中的数组循环遍历呀～</p>
+<h3 id="段前缀和它的一个用法"><a href="#段前缀和它的一个用法" class="headerlink" title="段前缀和它的一个用法"></a>段前缀和它的一个用法</h3><p>之前说到，在访问内存单元时，可以将段寄存器显式的标明，例如<code>ds:[bx]</code>，<code>es:[bx]</code>，这些出现在访问内存单元的指令中，用于显式地指明内存单元的段地址的“ds:”、“cs:”、“ss:”、“es:”，在汇编语言中被称为<strong>段前缀</strong>。</p>
+<p>段前缀的一个用处就是当我们要对多个段进行操作时，我们可以使用多个段寄存器来保存它们的段地址，在对它们的段内存操作的时候，就可以显式的指出内存地址，便于操作。</p>
+<h3 id="一段安全的空间"><a href="#一段安全的空间" class="headerlink" title="一段安全的空间"></a>一段安全的空间</h3><p>事实上，我有选择恐惧症，以上的程序在选择内存地址的时候往往不知道该选择哪一段，只好按书上的来，但又想书上为什么就选了这段呢，然后又想到底哪段该选哪段不该选呢，其实以上的选择都是不负责任的，书中专门讨论了这个问题，并给出了一个较为安全的内存空间：0:200~0:2ff。</p>
+<h3 id="实验4-bx-和loop的使用"><a href="#实验4-bx-和loop的使用" class="headerlink" title="实验4 [bx]和loop的使用"></a>实验4 [bx]和loop的使用</h3><p>（1）编程，向内存0:200<del>0:23F依次传送数据0</del>63（3FH）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，0</span><br><span class="line">	mov ds，ax</span><br><span class="line">	mov bx，200h</span><br><span class="line">	</span><br><span class="line">	mov cx，3fh</span><br><span class="line">s：	mov [bx]，al</span><br><span class="line">	inc bx</span><br><span class="line">	inc al</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax，4C00H</span><br><span class="line">	int 21H</span><br><span class="line">	</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>（2）编程，向内存0:200<del>0:23F依次传送数据0</del>63（3FH），程序中只能使用9条指令，9条指令中包括<code>mov ax，4c00h</code>和<code>int 21h</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">;灵活运用段地址，利用目标数据和地址的相似性节省指令</span><br><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	mov ax，20h</span><br><span class="line">	mov ds，ax</span><br><span class="line">	mov bx，0</span><br><span class="line">	mov cx，3fh</span><br><span class="line"></span><br><span class="line">s：	mov [bx]，bl</span><br><span class="line">	inc bl</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax，4C00H</span><br><span class="line">	int 21H</span><br><span class="line">	</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>（3）下面的程序的功能是将<code>mov ax，4c00h</code>之前的指令复制到0~200处，补全程序。上机调试，跟踪运行结果。</p>
+<blockquote>
+<p>assume cs：code<br>code segment<br>&emsp;mov ax，<code>cs</code><br>&emsp;mov ds，ax<br>&emsp;mov ax，0020h<br>&emsp;mov es，ax<br>&emsp;mov bx，0<br>&emsp;mov cx，<code>16h</code><br>s:&emsp;mov al，[bx]<br>&emsp;mov es:[bx]，al<br>&emsp;inc bx<br>&emsp;loop s<br>&emsp;mov ax，4c00h<br>&emsp;int 21h<br>code ends<br>end</p>
+</blockquote>
+<h2 id="第六章包含多个段的程序"><a href="#第六章包含多个段的程序" class="headerlink" title="第六章包含多个段的程序"></a>第六章包含多个段的程序</h2><h3 id="在代码中使用数据"><a href="#在代码中使用数据" class="headerlink" title="在代码中使用数据"></a>在代码中使用数据</h3><p>一直以来，我们对于数据的处理只是立即数和内存单元中已有的数据，如果要指定一组数据呢，怎么挨个存入内存单元呢？</p>
+<p>例如我们要对<code>0123h、0456h、0789h、0abch、0defh、0fedh、0cbah、0987h</code>求和。我们希望将其存入一段连续的内存中，但我们无法指定其存入哪一段内存中，而是依赖于操作系统分配，因此我们可以在程序中定义我们需要的数据，这些数据在编译、链接时会作为程序的一部分写到可执行程序中。</p>
+<p>具体做法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line"></span><br><span class="line">	dw 0123h, 0456h, 0789h, 0abch, 0defh, 0fedh, 0cbah, 0987h</span><br><span class="line">	</span><br><span class="line">	mov bx, 0</span><br><span class="line">	mov ax, 0</span><br><span class="line">	</span><br><span class="line">	mov cx, 8</span><br><span class="line">s:	add ax, cs:[bx]</span><br><span class="line">	add bx, 2</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax, 4c00h</span><br><span class="line">	int 21h</span><br><span class="line">	</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>dw的含义就是“data word”，是字标识，同理db代表字节标识。在这种做法下，这八个字被存放在cs:00h~cs:0fh中，这样我们就可以调用这些数据了。</p>
+<p>但也正是因为这样，我们在执行时需要把IP设置为10h，因为从10h开始才是我们的代码。这样很不方便，我们还有另一种做法，标定好程序开始位置，从标号处自动加载程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line"></span><br><span class="line">	dw 0123h, 0456h, 0789h, 0abch, 0defh, 0fedh, 0cbah, 0987h</span><br><span class="line">	</span><br><span class="line">start:mov bx, 0	;标定开始位置</span><br><span class="line">	mov ax, 0</span><br><span class="line">	</span><br><span class="line">	mov cx, 8</span><br><span class="line">s:	add ax, cs:[bx]</span><br><span class="line">	add bx, 2</span><br><span class="line">	loop s</span><br><span class="line">	</span><br><span class="line">	mov ax, 4c00h</span><br><span class="line">	int 21h</span><br><span class="line">	</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start			;设置开始位置</span><br></pre></td></tr></table></figure>
+
+<p>这个开始位置是由“end”后的标号所决定的，它后面是啥就从哪开始。</p>
+<p>如果要使用栈的话，那么需要“申请”一块内存，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line">	</span><br><span class="line">	dw 0123h, 0456, 0789h, 0abch, 0defh, 0fedh, 0cbah, 0987h</span><br><span class="line">	dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0	;这段内存就可以当作栈来使用</span><br><span class="line">	</span><br><span class="line">	............</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="检测点6-1"><a href="#检测点6-1" class="headerlink" title="检测点6.1"></a>检测点6.1</h3><blockquote>
+<p>（1）下面的程序实现依次用内存0:0~0:15单元中的内容改写程序中的数据，完成程序：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	dw 0123h, 0456h, 0789h, 0abch, 0defh, 0fedh, 0cbah, 0987h</span><br><span class="line">	</span><br><span class="line">start:	mov ax, 0</span><br><span class="line">		mov ds, ax</span><br><span class="line">		mov bx, 0</span><br><span class="line">		</span><br><span class="line">		mov cx, 8</span><br><span class="line">	s:	mov ax, [bx]</span><br><span class="line">		mov cs:[bx], ax</span><br><span class="line">		add bx, 2</span><br><span class="line">		loop s</span><br><span class="line">		</span><br><span class="line">		mov ax, 4c00h</span><br><span class="line">		int 21h</span><br><span class="line">		</span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>（2）下面的程序实现依次用内存0:0~0:15单元中的内容改写程序中的数据，数据的传送用栈来进行。栈空间设置在程序内。完成程序：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">	dw 0123h, 0456, 0789h, 0abch, 0defh, 0fedh, 0cbah, 0987h</span><br><span class="line">	dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0	;10个字单元用作栈空间</span><br><span class="line">	</span><br><span class="line">start:	mov ax, cs</span><br><span class="line">		mov ss, ax</span><br><span class="line">		mov sp, 24h</span><br><span class="line">		</span><br><span class="line">		mov ax, 0</span><br><span class="line">		mov ds, ax</span><br><span class="line">		mov bx, 0</span><br><span class="line">		mov cx, 8</span><br><span class="line">	s:	push [bx]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="将数据、代码、栈放入不同段"><a href="#将数据、代码、栈放入不同段" class="headerlink" title="将数据、代码、栈放入不同段"></a>将数据、代码、栈放入不同段</h3><p>我们上面的做法虽然合理，但是太乱了。我们可以把数据和代码分别写到不同的段里存放。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编/" rel="tag">#汇编</a>
+          
+            <a href="/tags/读书笔记/" rel="tag">#读书笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/18/在manjaro里搭建masm汇编学习环境/" rel="next" title="在manjaro里搭建masm汇编学习环境">
+                <i class="fa fa-chevron-left"></i> 在manjaro里搭建masm汇编学习环境
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/27/Vim实用技巧/" rel="prev" title="Vim实用技巧">
+                Vim实用技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/flower.jpeg" alt="花月九">
+          <p class="site-author-name" itemprop="name">花月九</p>
+          <p class="site-description motion-element" itemprop="description">花月九个人站，分享计算机知识。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章-基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一章 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器语言与汇编语言"><span class="nav-number">1.1.</span> <span class="nav-text">机器语言与汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据与存储"><span class="nav-number">1.2.</span> <span class="nav-text">数据与存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总线"><span class="nav-number">1.3.</span> <span class="nav-text">总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点1-1"><span class="nav-number">1.4.</span> <span class="nav-text">检测点1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储器与内存地址空间"><span class="nav-number">1.5.</span> <span class="nav-text">存储器与内存地址空间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-寄存器"><span class="nav-number">2.</span> <span class="nav-text">第二章 寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU内部"><span class="nav-number">2.1.</span> <span class="nav-text">CPU内部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器"><span class="nav-number">2.2.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据在寄存器中的存储"><span class="nav-number">2.3.</span> <span class="nav-text">数据在寄存器中的存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov和add指令"><span class="nav-number">2.4.</span> <span class="nav-text">mov和add指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-1"><span class="nav-number">2.5.</span> <span class="nav-text">检测点2.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8086CPU的寻址方式"><span class="nav-number">2.6.</span> <span class="nav-text">8086CPU的寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段的概念"><span class="nav-number">2.7.</span> <span class="nav-text">段的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-2"><span class="nav-number">2.8.</span> <span class="nav-text">检测点2.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CS和IP"><span class="nav-number">2.9.</span> <span class="nav-text">CS和IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-3"><span class="nav-number">2.10.</span> <span class="nav-text">检测点2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验1-查看CPU和内存，用机器指令和汇编指令编程"><span class="nav-number">2.11.</span> <span class="nav-text">实验1 查看CPU和内存，用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用"><span class="nav-number">2.11.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务"><span class="nav-number">2.11.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-寄存器（内存访问）"><span class="nav-number">3.</span> <span class="nav-text">第三章 寄存器（内存访问）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#大小端模式"><span class="nav-number">3.1.</span> <span class="nav-text">大小端模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个字"><span class="nav-number">3.2.</span> <span class="nav-text">访问一个字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov、add、sub指令"><span class="nav-number">3.3.</span> <span class="nav-text">mov、add、sub指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-1"><span class="nav-number">3.4.</span> <span class="nav-text">检测点3.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU的栈机制"><span class="nav-number">3.5.</span> <span class="nav-text">CPU的栈机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再谈段"><span class="nav-number">3.6.</span> <span class="nav-text">再谈段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-2"><span class="nav-number">3.7.</span> <span class="nav-text">检测点3.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验2-用机器指令和汇编指令编程"><span class="nav-number">3.8.</span> <span class="nav-text">实验2 用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用-1"><span class="nav-number">3.8.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务-1"><span class="nav-number">3.8.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-第一个程序"><span class="nav-number">4.</span> <span class="nav-text">第四章 第一个程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从源码到执行"><span class="nav-number">4.1.</span> <span class="nav-text">从源码到执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源程序"><span class="nav-number">4.2.</span> <span class="nav-text">源程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成程序"><span class="nav-number">4.3.</span> <span class="nav-text">生成程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跟踪程序执行过程"><span class="nav-number">4.4.</span> <span class="nav-text">跟踪程序执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验3-编程、编译、链接、跟踪"><span class="nav-number">4.5.</span> <span class="nav-text">实验3 编程、编译、链接、跟踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-BX-和loop指令"><span class="nav-number">5.</span> <span class="nav-text">第五章 [BX]和loop指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#约定"><span class="nav-number">5.1.</span> <span class="nav-text">约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop循环"><span class="nav-number">5.2.</span> <span class="nav-text">loop循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug程序和masm对-idata-的不同处理"><span class="nav-number">5.3.</span> <span class="nav-text">Debug程序和masm对[idata]的不同处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop-bx-实现遍历"><span class="nav-number">5.4.</span> <span class="nav-text">loop+[bx]实现遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段前缀和它的一个用法"><span class="nav-number">5.5.</span> <span class="nav-text">段前缀和它的一个用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一段安全的空间"><span class="nav-number">5.6.</span> <span class="nav-text">一段安全的空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验4-bx-和loop的使用"><span class="nav-number">5.7.</span> <span class="nav-text">实验4 [bx]和loop的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章包含多个段的程序"><span class="nav-number">6.</span> <span class="nav-text">第六章包含多个段的程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中使用数据"><span class="nav-number">6.1.</span> <span class="nav-text">在代码中使用数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点6-1"><span class="nav-number">6.2.</span> <span class="nav-text">检测点6.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将数据、代码、栈放入不同段"><span class="nav-number">6.3.</span> <span class="nav-text">将数据、代码、栈放入不同段</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花月九</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("FwVHt6BEAswroFNQMxwNEVl4-gzGzoHsz", "rRfOK1bf7FjX6GQAPeWPwwFV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

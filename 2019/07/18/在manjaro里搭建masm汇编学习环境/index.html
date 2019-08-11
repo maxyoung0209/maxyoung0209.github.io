@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://tva3.sinaimg.cn/large/007DFXDhgy1g545rsktxkj30k80bsaai.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g5460ttfbsj30k70bs74f.jpg">
-<meta property="og:updated_time" content="2019-07-18T12:22:47.084Z">
+<meta property="og:updated_time" content="2019-07-26T03:20:43.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在manjaro里搭建masm汇编学习环境">
 <meta name="twitter:description" content="王爽的《汇编语言》是一本优秀的汇编教材，适合初学者学习，书中讲的是MASM，即Microsoft Macro Assembler，因此要求开发人员必须在Windows下进行开发。如果计算机上只装了Manjaro该怎么办呢？">
@@ -330,11 +330,10 @@
 <p>可以在Manjaro上装一台Windows虚拟机，但是有咩有更好一点的解决方案捏。在网上搜了下，发现了这个dos程序——dosemu。</p>
 <p>这个小东西是DOS模拟器，是一款类似于DOSBox的软件。它目前只支持Linux系统。</p>
 <hr>
-<p><strong>安装dosemu</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S dosemu</span><br></pre></td></tr></table></figure>
+<h3 id="安装dosemu"><a href="#安装dosemu" class="headerlink" title="安装dosemu"></a>安装dosemu</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S dosemu</span><br></pre></td></tr></table></figure>
 
-<p><strong>下载汇编器、链接器和dos自带edit文本编辑器</strong><br>由于dosemu已经自带<code>debug.exe</code>了，所以我们只需要下载好这三个程序就好了。我把这三个程序放在<a href="https://github.com/maxyoung0209/tools.git" target="_blank" rel="noopener">Github</a>上了。</p>
-<p><strong>使用dosemu</strong><br>运行dosemu</p>
+<h3 id="下载汇编器、链接器和dos自带edit文本编辑器"><a href="#下载汇编器、链接器和dos自带edit文本编辑器" class="headerlink" title="下载汇编器、链接器和dos自带edit文本编辑器"></a>下载汇编器、链接器和dos自带edit文本编辑器</h3><p>由于dosemu已经自带<code>debug.exe</code>了，所以我们只需要下载好这三个程序就好了。我把这三个程序放在<a href="https://github.com/maxyoung0209/tools.git" target="_blank" rel="noopener">Github</a>上了。</p>
+<h3 id="使用dosemu"><a href="#使用dosemu" class="headerlink" title="使用dosemu"></a>使用dosemu</h3><p>运行dosemu</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dosemu</span><br></pre></td></tr></table></figure>
 
 <p>打开一个黑乎乎的窗口：<br><img src="https://tva3.sinaimg.cn/large/007DFXDhgy1g545rsktxkj30k80bsaai.jpg" alt="dosemu" title="dosemu"></p>
@@ -342,8 +341,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line">cd software/threetools  # 我把这三个程序放在了～/Software/threetools下</span><br></pre></td></tr></table></figure>
 
 <p>然后就可以按书上学习了<br><img src="https://tva1.sinaimg.cn/large/007DFXDhgy1g5460ttfbsj30k70bs74f.jpg" alt="debug" title="debug"></p>
-<p><strong>退出dosemu</strong></p>
-<p>退出命令<code>exitemu</code></p>
+<h3 id="退出dosemu"><a href="#退出dosemu" class="headerlink" title="退出dosemu"></a>退出dosemu</h3><p>退出命令<code>exitemu</code></p>
 
       
     </div>
@@ -384,6 +382,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/20/《汇编语言（第三版）》——王爽-读书笔记/" rel="prev" title="《汇编语言（第三版）》——王爽 读书笔记（未完待续）">
+                《汇编语言（第三版）》——王爽 读书笔记（未完待续） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -449,7 +451,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -457,7 +459,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -466,7 +468,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -495,7 +497,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装dosemu"><span class="nav-number">1.</span> <span class="nav-text">安装dosemu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载汇编器、链接器和dos自带edit文本编辑器"><span class="nav-number">2.</span> <span class="nav-text">下载汇编器、链接器和dos自带edit文本编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用dosemu"><span class="nav-number">3.</span> <span class="nav-text">使用dosemu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出dosemu"><span class="nav-number">4.</span> <span class="nav-text">退出dosemu</span></a></li></ol></div>
             
           </div>
         </section>
@@ -533,11 +535,6 @@
   </a>
 </div>
 
-<div class="powered-by">
-<i class="fa fa-user-md"><span id="busuanzi_container_site_pv">
-	总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
-</i></div>
 
         
 
