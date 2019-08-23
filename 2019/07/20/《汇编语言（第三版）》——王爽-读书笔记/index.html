@@ -130,7 +130,7 @@
 <meta property="og:image" content="https://tva2.sinaimg.cn/large/007DFXDhgy1g641ctu1m6j30xt0gwtcz.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g641d8mqljj30xs0jwdop.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007DFXDhgy1g641dqlekij30xr0npqd3.jpg">
-<meta property="og:updated_time" content="2019-08-23T02:13:07.575Z">
+<meta property="og:updated_time" content="2019-08-23T04:01:55.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《汇编语言（第三版）》——王爽 读书笔记（未完待续）">
 <meta name="twitter:description" content="本文记录了读王爽老师的《汇编语言（第三版）》的过程，由于我对于汇编还没有太深理解，因此对书中内容并无太多个人总结，文中部分是书中原话，另外我按照自己的研读过程对书中结构进行了略微调整，内容上实则无伤大雅。">
@@ -970,7 +970,143 @@
 
 <p>因为<code>jmp short s1</code>为短转移，其原理是设置偏移量来跳转，不是绝对的偏移地址，但指令复制过去变为<code>jmp 0000</code>，是可以正常运行的，但是很奇怪不是吗，我认为使用远转移指令可以解决这个问题，然而在编译我编辑好的程序的时候，我写的远转移指令被优化为短转移了！！我不知道如何控制编译器选项，所以我打算用机器码写一下试试。不试了，懒死。</p>
 <h2 id="第十章-CALL和RET指令"><a href="#第十章-CALL和RET指令" class="headerlink" title="第十章 CALL和RET指令"></a>第十章 CALL和RET指令</h2><p>call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。它们经常被共同用来实现子程序的设计。</p>
+<h3 id="ret和retf"><a href="#ret和retf" class="headerlink" title="ret和retf"></a>ret和retf</h3><p>ret指令用栈中的数据，修改IP的内容，从而实现近转移;<br>retf指令用栈中的数据，修改CS和IP的内容，从而实现远转移。</p>
+<p>如果用汇编语法来解释ret和retf指令，则：<br>CPU执行ret指令时，相当于进行<code>pop IP</code><br>CPU执行retf指令时，相当于进行<code>pop IP pop CS</code>，注意CS在高位高位地址，IP在低位地址。</p>
+<h3 id="检测点-10-1"><a href="#检测点-10-1" class="headerlink" title="检测点 10.1"></a>检测点 10.1</h3><p>补全程序，实现从内存1000：0000处开始执行指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">	db 16 dup (0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line"></span><br><span class="line">start:	mov ax, stack</span><br><span class="line">		mov ss, ax</span><br><span class="line">		mov sp, 16</span><br><span class="line">		mov ax, 1000h</span><br><span class="line">		push ax</span><br><span class="line">		mov ax, 0000h</span><br><span class="line">		push ax</span><br><span class="line">		retf</span><br><span class="line"></span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
 
+<h3 id="call指令"><a href="#call指令" class="headerlink" title="call指令"></a>call指令</h3><p>call是转移指令。</p>
+<p>CPU在执行<code>call 标号</code>指令时，相当于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push IP</span><br><span class="line">jmp near ptr 标号</span><br></pre></td></tr></table></figure>
+
+<p>由于call指令没有短转移，因此在<code>call 标号</code>时默认是近转移。</p>
+<p>call指令的其他格式和jmp类似。</p>
+<ol>
+<li><code>call far ptr 标号</code>实现的是段间转移，它相当于：<br>push CS<br>push IP<br>jmp far ptr 标号</li>
+<li><code>call 16位reg</code>相当于：<br>push IP<br>jmp 16位reg</li>
+<li><code>call word ptr 内存单元地址</code>相当于：<br>push IP<br>jmp word ptr 内存单元地址</li>
+<li><code>call dword ptr 内存单元地址</code>相当于：<br>push CS<br>push IP<br>jmp dword ptr 内存单元地址</li>
+</ol>
+<p>call指令和jmp指令的区别有两处。</p>
+<ol>
+<li>call没有短转移</li>
+<li>call先将CS：IP入栈</li>
+</ol>
+<h3 id="检测点10-2"><a href="#检测点10-2" class="headerlink" title="检测点10.2"></a>检测点10.2</h3><p>下面的程序执行后，ax中的数值为多少？</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>机器码</th>
+<th>汇编指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000:0</td>
+<td>b8 00 00</td>
+<td>mov ax, 0</td>
+</tr>
+<tr>
+<td>1000: 3</td>
+<td>e8 01 00</td>
+<td>call s</td>
+</tr>
+<tr>
+<td>1000:6</td>
+<td>40</td>
+<td>inc ax</td>
+</tr>
+<tr>
+<td>1000:7</td>
+<td>58</td>
+<td>s: pop ax</td>
+</tr>
+</tbody></table>
+<p><strong>6h</strong></p>
+<h3 id="检测点-10-3"><a href="#检测点-10-3" class="headerlink" title="检测点 10.3"></a>检测点 10.3</h3><p>下面的程序执行后，ax中的数值为多少？</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>机器码</th>
+<th>汇编指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000:0</td>
+<td>b8 00 00</td>
+<td>mov ax, 0</td>
+</tr>
+<tr>
+<td>1000:3</td>
+<td>9a 09 00 00 10</td>
+<td>call far ptr s</td>
+</tr>
+<tr>
+<td>1000:8</td>
+<td>40</td>
+<td>inc ax</td>
+</tr>
+<tr>
+<td>1000:9</td>
+<td>58</td>
+<td>s: pop ax</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>add ax, ax</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>pop bx</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>add ax, bx</td>
+</tr>
+</tbody></table>
+<p><strong>1010h</strong></p>
+<h3 id="检测点-10-4"><a href="#检测点-10-4" class="headerlink" title="检测点 10.4"></a>检测点 10.4</h3><p>下面的程序执行后，ax中的数值为多少？</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>机器码</th>
+<th>汇编指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000:0</td>
+<td>b8 06 00</td>
+<td>mov ax, 6</td>
+</tr>
+<tr>
+<td>1000:3</td>
+<td>ff d0</td>
+<td>call ax</td>
+</tr>
+<tr>
+<td>1000:5</td>
+<td>40</td>
+<td>inc ax</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>mov bp, sp</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>add ax, [bp]</td>
+</tr>
+</tbody></table>
+<p><strong>0bh</strong></p>
+<h3 id="检测点-10-5"><a href="#检测点-10-5" class="headerlink" title="检测点 10.5"></a>检测点 10.5</h3><p>（1）下面的程序执行后，ax中的数值为多少？（注意：用call指令的原理来分析，不要在Debug中单步跟踪来验证你的结论。对于此程序，在Debug中单步跟踪的结果，不能代表CPU的实际执行结果。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1079,7 +1215,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1125,7 +1261,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章-基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一章 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器语言与汇编语言"><span class="nav-number">1.1.</span> <span class="nav-text">机器语言与汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据与存储"><span class="nav-number">1.2.</span> <span class="nav-text">数据与存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总线"><span class="nav-number">1.3.</span> <span class="nav-text">总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点1-1"><span class="nav-number">1.4.</span> <span class="nav-text">检测点1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储器与内存地址空间"><span class="nav-number">1.5.</span> <span class="nav-text">存储器与内存地址空间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-寄存器"><span class="nav-number">2.</span> <span class="nav-text">第二章 寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU内部"><span class="nav-number">2.1.</span> <span class="nav-text">CPU内部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器"><span class="nav-number">2.2.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据在寄存器中的存储"><span class="nav-number">2.3.</span> <span class="nav-text">数据在寄存器中的存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov和add指令"><span class="nav-number">2.4.</span> <span class="nav-text">mov和add指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-1"><span class="nav-number">2.5.</span> <span class="nav-text">检测点2.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8086CPU的寻址方式"><span class="nav-number">2.6.</span> <span class="nav-text">8086CPU的寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段的概念"><span class="nav-number">2.7.</span> <span class="nav-text">段的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-2"><span class="nav-number">2.8.</span> <span class="nav-text">检测点2.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CS和IP"><span class="nav-number">2.9.</span> <span class="nav-text">CS和IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-3"><span class="nav-number">2.10.</span> <span class="nav-text">检测点2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验1-查看CPU和内存，用机器指令和汇编指令编程"><span class="nav-number">2.11.</span> <span class="nav-text">实验1 查看CPU和内存，用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用"><span class="nav-number">2.11.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务"><span class="nav-number">2.11.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-寄存器（内存访问）"><span class="nav-number">3.</span> <span class="nav-text">第三章 寄存器（内存访问）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#大小端模式"><span class="nav-number">3.1.</span> <span class="nav-text">大小端模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个字"><span class="nav-number">3.2.</span> <span class="nav-text">访问一个字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov、add、sub指令"><span class="nav-number">3.3.</span> <span class="nav-text">mov、add、sub指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-1"><span class="nav-number">3.4.</span> <span class="nav-text">检测点3.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU的栈机制"><span class="nav-number">3.5.</span> <span class="nav-text">CPU的栈机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再谈段"><span class="nav-number">3.6.</span> <span class="nav-text">再谈段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-2"><span class="nav-number">3.7.</span> <span class="nav-text">检测点3.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验2-用机器指令和汇编指令编程"><span class="nav-number">3.8.</span> <span class="nav-text">实验2 用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用-1"><span class="nav-number">3.8.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务-1"><span class="nav-number">3.8.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-第一个程序"><span class="nav-number">4.</span> <span class="nav-text">第四章 第一个程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从源码到执行"><span class="nav-number">4.1.</span> <span class="nav-text">从源码到执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源程序"><span class="nav-number">4.2.</span> <span class="nav-text">源程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成程序"><span class="nav-number">4.3.</span> <span class="nav-text">生成程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跟踪程序执行过程"><span class="nav-number">4.4.</span> <span class="nav-text">跟踪程序执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验3-编程、编译、链接、跟踪"><span class="nav-number">4.5.</span> <span class="nav-text">实验3 编程、编译、链接、跟踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-BX-和loop指令"><span class="nav-number">5.</span> <span class="nav-text">第五章 [BX]和loop指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#约定"><span class="nav-number">5.1.</span> <span class="nav-text">约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop循环"><span class="nav-number">5.2.</span> <span class="nav-text">loop循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug程序和masm对-idata-的不同处理"><span class="nav-number">5.3.</span> <span class="nav-text">Debug程序和masm对[idata]的不同处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop-bx-实现遍历"><span class="nav-number">5.4.</span> <span class="nav-text">loop+[bx]实现遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段前缀和它的一个用法"><span class="nav-number">5.5.</span> <span class="nav-text">段前缀和它的一个用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一段安全的空间"><span class="nav-number">5.6.</span> <span class="nav-text">一段安全的空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验4-bx-和loop的使用"><span class="nav-number">5.7.</span> <span class="nav-text">实验4 [bx]和loop的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章包含多个段的程序"><span class="nav-number">6.</span> <span class="nav-text">第六章包含多个段的程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中使用数据"><span class="nav-number">6.1.</span> <span class="nav-text">在代码中使用数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点6-1"><span class="nav-number">6.2.</span> <span class="nav-text">检测点6.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将数据、代码、栈放入不同段"><span class="nav-number">6.3.</span> <span class="nav-text">将数据、代码、栈放入不同段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验五-编写、调试具有多个段的程序"><span class="nav-number">6.4.</span> <span class="nav-text">实验五 编写、调试具有多个段的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章-更灵活的定位内存地址的方法"><span class="nav-number">7.</span> <span class="nav-text">第七章 更灵活的定位内存地址的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#and和or指令"><span class="nav-number">7.1.</span> <span class="nav-text">and和or指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大小写转换"><span class="nav-number">7.2.</span> <span class="nav-text">大小写转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五种定位内存地址的方式"><span class="nav-number">7.3.</span> <span class="nav-text">五种定位内存地址的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验六-实践课程中的程序"><span class="nav-number">7.4.</span> <span class="nav-text">实验六 实践课程中的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-数据处理的两个问题"><span class="nav-number">8.</span> <span class="nav-text">第八章 数据处理的两个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个问题"><span class="nav-number">8.1.</span> <span class="nav-text">两个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存地址定位相关regs"><span class="nav-number">8.2.</span> <span class="nav-text">内存地址定位相关regs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器指令处理的数据在什么地方"><span class="nav-number">8.3.</span> <span class="nav-text">机器指令处理的数据在什么地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻址方式"><span class="nav-number">8.4.</span> <span class="nav-text">寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令要处理的数据有多长"><span class="nav-number">8.5.</span> <span class="nav-text">指令要处理的数据有多长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除法指令：div"><span class="nav-number">8.6.</span> <span class="nav-text">除法指令：div</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪指令dd和dup"><span class="nav-number">8.7.</span> <span class="nav-text">伪指令dd和dup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验七-寻址方式在结构化数据访问中的应用"><span class="nav-number">8.8.</span> <span class="nav-text">实验七 寻址方式在结构化数据访问中的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章-转移指令的原理"><span class="nav-number">9.</span> <span class="nav-text">第九章 转移指令的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作符offset"><span class="nav-number">9.1.</span> <span class="nav-text">操作符offset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的段间转移"><span class="nav-number">9.2.</span> <span class="nav-text">jmp指令的段间转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的段内转移"><span class="nav-number">9.3.</span> <span class="nav-text">jmp指令的段内转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的其他格式"><span class="nav-number">9.4.</span> <span class="nav-text">jmp指令的其他格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点9-1"><span class="nav-number">9.5.</span> <span class="nav-text">检测点9.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件转移指令：jcxz"><span class="nav-number">9.6.</span> <span class="nav-text">条件转移指令：jcxz</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点9-2"><span class="nav-number">9.7.</span> <span class="nav-text">检测点9.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环指令：loop"><span class="nav-number">9.8.</span> <span class="nav-text">循环指令：loop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验八-分析一个奇怪的程序"><span class="nav-number">9.9.</span> <span class="nav-text">实验八 分析一个奇怪的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-CALL和RET指令"><span class="nav-number">10.</span> <span class="nav-text">第十章 CALL和RET指令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章-基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一章 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器语言与汇编语言"><span class="nav-number">1.1.</span> <span class="nav-text">机器语言与汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据与存储"><span class="nav-number">1.2.</span> <span class="nav-text">数据与存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总线"><span class="nav-number">1.3.</span> <span class="nav-text">总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点1-1"><span class="nav-number">1.4.</span> <span class="nav-text">检测点1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储器与内存地址空间"><span class="nav-number">1.5.</span> <span class="nav-text">存储器与内存地址空间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-寄存器"><span class="nav-number">2.</span> <span class="nav-text">第二章 寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU内部"><span class="nav-number">2.1.</span> <span class="nav-text">CPU内部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器"><span class="nav-number">2.2.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据在寄存器中的存储"><span class="nav-number">2.3.</span> <span class="nav-text">数据在寄存器中的存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov和add指令"><span class="nav-number">2.4.</span> <span class="nav-text">mov和add指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-1"><span class="nav-number">2.5.</span> <span class="nav-text">检测点2.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8086CPU的寻址方式"><span class="nav-number">2.6.</span> <span class="nav-text">8086CPU的寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段的概念"><span class="nav-number">2.7.</span> <span class="nav-text">段的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-2"><span class="nav-number">2.8.</span> <span class="nav-text">检测点2.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CS和IP"><span class="nav-number">2.9.</span> <span class="nav-text">CS和IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点2-3"><span class="nav-number">2.10.</span> <span class="nav-text">检测点2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验1-查看CPU和内存，用机器指令和汇编指令编程"><span class="nav-number">2.11.</span> <span class="nav-text">实验1 查看CPU和内存，用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用"><span class="nav-number">2.11.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务"><span class="nav-number">2.11.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-寄存器（内存访问）"><span class="nav-number">3.</span> <span class="nav-text">第三章 寄存器（内存访问）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#大小端模式"><span class="nav-number">3.1.</span> <span class="nav-text">大小端模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个字"><span class="nav-number">3.2.</span> <span class="nav-text">访问一个字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mov、add、sub指令"><span class="nav-number">3.3.</span> <span class="nav-text">mov、add、sub指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-1"><span class="nav-number">3.4.</span> <span class="nav-text">检测点3.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU的栈机制"><span class="nav-number">3.5.</span> <span class="nav-text">CPU的栈机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再谈段"><span class="nav-number">3.6.</span> <span class="nav-text">再谈段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点3-2"><span class="nav-number">3.7.</span> <span class="nav-text">检测点3.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验2-用机器指令和汇编指令编程"><span class="nav-number">3.8.</span> <span class="nav-text">实验2 用机器指令和汇编指令编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备知识：Debug的使用-1"><span class="nav-number">3.8.1.</span> <span class="nav-text">预备知识：Debug的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验任务-1"><span class="nav-number">3.8.2.</span> <span class="nav-text">实验任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-第一个程序"><span class="nav-number">4.</span> <span class="nav-text">第四章 第一个程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从源码到执行"><span class="nav-number">4.1.</span> <span class="nav-text">从源码到执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源程序"><span class="nav-number">4.2.</span> <span class="nav-text">源程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成程序"><span class="nav-number">4.3.</span> <span class="nav-text">生成程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跟踪程序执行过程"><span class="nav-number">4.4.</span> <span class="nav-text">跟踪程序执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验3-编程、编译、链接、跟踪"><span class="nav-number">4.5.</span> <span class="nav-text">实验3 编程、编译、链接、跟踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-BX-和loop指令"><span class="nav-number">5.</span> <span class="nav-text">第五章 [BX]和loop指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#约定"><span class="nav-number">5.1.</span> <span class="nav-text">约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop循环"><span class="nav-number">5.2.</span> <span class="nav-text">loop循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug程序和masm对-idata-的不同处理"><span class="nav-number">5.3.</span> <span class="nav-text">Debug程序和masm对[idata]的不同处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loop-bx-实现遍历"><span class="nav-number">5.4.</span> <span class="nav-text">loop+[bx]实现遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#段前缀和它的一个用法"><span class="nav-number">5.5.</span> <span class="nav-text">段前缀和它的一个用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一段安全的空间"><span class="nav-number">5.6.</span> <span class="nav-text">一段安全的空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验4-bx-和loop的使用"><span class="nav-number">5.7.</span> <span class="nav-text">实验4 [bx]和loop的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章包含多个段的程序"><span class="nav-number">6.</span> <span class="nav-text">第六章包含多个段的程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中使用数据"><span class="nav-number">6.1.</span> <span class="nav-text">在代码中使用数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点6-1"><span class="nav-number">6.2.</span> <span class="nav-text">检测点6.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将数据、代码、栈放入不同段"><span class="nav-number">6.3.</span> <span class="nav-text">将数据、代码、栈放入不同段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验五-编写、调试具有多个段的程序"><span class="nav-number">6.4.</span> <span class="nav-text">实验五 编写、调试具有多个段的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章-更灵活的定位内存地址的方法"><span class="nav-number">7.</span> <span class="nav-text">第七章 更灵活的定位内存地址的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#and和or指令"><span class="nav-number">7.1.</span> <span class="nav-text">and和or指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大小写转换"><span class="nav-number">7.2.</span> <span class="nav-text">大小写转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五种定位内存地址的方式"><span class="nav-number">7.3.</span> <span class="nav-text">五种定位内存地址的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验六-实践课程中的程序"><span class="nav-number">7.4.</span> <span class="nav-text">实验六 实践课程中的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-数据处理的两个问题"><span class="nav-number">8.</span> <span class="nav-text">第八章 数据处理的两个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个问题"><span class="nav-number">8.1.</span> <span class="nav-text">两个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存地址定位相关regs"><span class="nav-number">8.2.</span> <span class="nav-text">内存地址定位相关regs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器指令处理的数据在什么地方"><span class="nav-number">8.3.</span> <span class="nav-text">机器指令处理的数据在什么地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻址方式"><span class="nav-number">8.4.</span> <span class="nav-text">寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令要处理的数据有多长"><span class="nav-number">8.5.</span> <span class="nav-text">指令要处理的数据有多长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除法指令：div"><span class="nav-number">8.6.</span> <span class="nav-text">除法指令：div</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪指令dd和dup"><span class="nav-number">8.7.</span> <span class="nav-text">伪指令dd和dup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验七-寻址方式在结构化数据访问中的应用"><span class="nav-number">8.8.</span> <span class="nav-text">实验七 寻址方式在结构化数据访问中的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章-转移指令的原理"><span class="nav-number">9.</span> <span class="nav-text">第九章 转移指令的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作符offset"><span class="nav-number">9.1.</span> <span class="nav-text">操作符offset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的段间转移"><span class="nav-number">9.2.</span> <span class="nav-text">jmp指令的段间转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的段内转移"><span class="nav-number">9.3.</span> <span class="nav-text">jmp指令的段内转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jmp指令的其他格式"><span class="nav-number">9.4.</span> <span class="nav-text">jmp指令的其他格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点9-1"><span class="nav-number">9.5.</span> <span class="nav-text">检测点9.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件转移指令：jcxz"><span class="nav-number">9.6.</span> <span class="nav-text">条件转移指令：jcxz</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点9-2"><span class="nav-number">9.7.</span> <span class="nav-text">检测点9.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环指令：loop"><span class="nav-number">9.8.</span> <span class="nav-text">循环指令：loop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验八-分析一个奇怪的程序"><span class="nav-number">9.9.</span> <span class="nav-text">实验八 分析一个奇怪的程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-CALL和RET指令"><span class="nav-number">10.</span> <span class="nav-text">第十章 CALL和RET指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret和retf"><span class="nav-number">10.1.</span> <span class="nav-text">ret和retf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点-10-1"><span class="nav-number">10.2.</span> <span class="nav-text">检测点 10.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#call指令"><span class="nav-number">10.3.</span> <span class="nav-text">call指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点10-2"><span class="nav-number">10.4.</span> <span class="nav-text">检测点10.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点-10-3"><span class="nav-number">10.5.</span> <span class="nav-text">检测点 10.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点-10-4"><span class="nav-number">10.6.</span> <span class="nav-text">检测点 10.4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测点-10-5"><span class="nav-number">10.7.</span> <span class="nav-text">检测点 10.5</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
